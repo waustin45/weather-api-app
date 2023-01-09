@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./style.css">
+    <script src="./app.js" defer></script>
+    <title>Weather App</title>
+</head>
+<body>
+    <nav class="nav">
+        <h1 class="logo">
+            Weather Dashboard
+        </h1>
+    </nav>
+    <main class="container">
+        <section class="search-sec">
+            <div class="input-div">
+                <span>Search for a City:</span>
+                <input id="input" class="input-bar" type="text" placeholder="Atlanta"/>
+                <button class="search-btn">Search</button>
+            </div>
+           <ul class="searched-cities">
+
+           </ul>
+        </section>
+         <section class="output-sec">
+                <div class="top-info">
+                    <h1 class="info-head">
+                        Search for a city!
+                    </h1>
+                    <div class="temp-info-div">
+                    <div class="temp-span">Temp:<span class="temp"></span></div>
+                    <div class="wind-span">Wind:<span class="wind"></span></div>
+                    <div class="humidity-span">Humidity:<span class="humidity"></span></div>
+                    </div>
+                </div>
+                <div class="info-cards">
+                    <span class="info-span">
+                        5-Day Forecast:
+                    </span>
+                    <div class="card-div">
+
+                    </div>
+                </div>
+            </section>
+    </main>
+</body>
+</html>
