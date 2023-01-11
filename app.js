@@ -77,7 +77,7 @@ function fetchData () {
             const urlForLatLong = `https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${long}&units=imperial&cnt=5&exclude=alerts&appid=${apieKey}`
             fetch(urlForLatLong).then(res => res.json()).then(weather => {
                 console.log(weather)
-                infoHead.innerHTML = data[0].name + " " + currentDay + " " + `<img src=http://openweathermap.org/img/wn/${weather.current.weather[0].icon}.png></img>`
+                infoHead.innerHTML = data[0].name + " " + currentDay + " " + `<img src=https://openweathermap.org/img/wn/${weather.current.weather[0].icon}.png></img>`
                 temp.innerHTML = " " + weather.current.temp + "ºF"
                 wind.innerHTML = " " + weather.current.wind_speed + " MPH"
                 humidity.innerHTML = " " + weather.current.humidity + " %"
@@ -119,7 +119,7 @@ function fetchSearchedData () {
                     const urlForLatLong = `https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${long}&units=imperial&cnt=5&appid=${apieKey}`
                     fetch(urlForLatLong).then(res => res.json()).then(weather => {
                         console.log(weather)
-                        infoHead.innerHTML = data[0].name + " " + currentDay + " " + `<img src=http://openweathermap.org/img/wn/${weather.current.weather[0].icon}.png></img>`
+                        infoHead.innerHTML = data[0].name + " " + currentDay + " " + `<img src=https://openweathermap.org/img/wn/${weather.current.weather[0].icon}.png></img>`
                         temp.innerHTML = " " + weather.current.temp + "ºF"
                         wind.innerHTML = " " + weather.current.wind_speed + " MPH"
                         humidity.innerHTML = " " + weather.current.humidity + " %"
