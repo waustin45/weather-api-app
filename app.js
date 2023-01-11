@@ -15,13 +15,10 @@ const temp = document.querySelector('.temp')
 const wind = document.querySelector('.wind')
 const humidity = document.querySelector('.humidity')
 const clearBtn = document.querySelector('.clear-btn')
-var today = new Date();
-var dd = String(today.getDate()).padStart(2, '0');
-var ddRevised = String(today.getDate()).padStart(2, '0') 
-var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-var yyyy = today.getFullYear();
+const currentDay = dayjs().format('(M/DD/YYYY)')
+let day = JSON.parse(dayjs().format('DD'))
+let thisDay = dayjs().format('DD')
 
-today = mm + '/' + dd + '/' + yyyy;
 // array to hld the searched cities
 let citiesArray = [];
 //function to add searched cities to local storage
@@ -53,21 +50,16 @@ function saveSearch () {
 //makes search history visible to user
 function showSearches () {
     const newCitiesArray = JSON.parse(localStorage.getItem('cities'))
-    
-         const citiesMap =  newCitiesArray.map(info => {
-        return `<li><button class="searched-city-btn">${info}</button></li>`
-    
-    }).join("")
-     
-   
-   
-    console.log(citiesMap)
-    
-    console.log(citiesMap)
-    cityList.innerHTML = citiesMap
-        
-    
-    
+    if (newCitiesArray) {
+        const citiesMap =  newCitiesArray.map(info => {
+            return `<li><button class="searched-city-btn">${info}</button></li>`
+            
+            }).join("")
+            console.log(citiesMap)
+            cityList.innerHTML = citiesMap
+    } else {
+        cityList.innerHTML = "No cities searched."
+    }
 }
 showSearches()
 // functionto fetch weather datat from api
@@ -82,30 +74,29 @@ function fetchData () {
         console.log("lat " + lat, "lon " + long)
         // fetch function for weather data 
         function weatherData () {
-            const urlForLatLong = `https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${long}&units=imperial&exclude=alerts&appid=${apieKey}`
+            const urlForLatLong = `https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${long}&units=imperial&cnt=5&exclude=alerts&appid=${apieKey}`
             fetch(urlForLatLong).then(res => res.json()).then(weather => {
                 console.log(weather)
-                infoHead.innerHTML = data[0].name + " " + today
+                infoHead.innerHTML = data[0].name + " " + currentDay + " " + `<img src=http://openweathermap.org/img/wn/${weather.current.weather[0].icon}.png></img>`
                 temp.innerHTML = " " + weather.current.temp + "ºF"
                 wind.innerHTML = " " + weather.current.wind_speed + " MPH"
                 humidity.innerHTML = " " + weather.current.humidity + " %"
                 
-               cardDiv.innerHTML = weather.daily.splice(3).map( info => {
-                    return `<div class="card">
-                    <h3>${info.weather[0].main}</h3>
+               cardDiv.innerHTML = weather.daily.splice(1, 5).map( info => {
+                const timestamp = info.dt
+                const date = new Date(timestamp * 1000)
+                return `<div class="card">
+                <h3>${date.toLocaleString("en-US").slice(0, 9)}</h3>
                     <img src="http://openweathermap.org/img/wn/${info.weather[0].icon}.png"></img>
-                    <div> Temp: <span>${info.temp.day}</span></div>
-                    <div> Wind: <span>${info.wind_speed}</span></div>
-                    <div> Humidity: <span>${info.humidity}</span></div>
+                    <div> Temp: <span>${info.temp.day}ºF</span></div>
+                    <div> Wind: <span>${info.wind_speed}MPH</span></div>
+                    <div> Humidity: <span>${info.humidity}%</span></div>
                     </div>`
                 }).join('')
-                
             })
         }
         weatherData()
     })
-    console.log("lat " + lat, "lon " + long, "this is returned")
-    
 }
 // fetches weather data for searched items. press searched item to trigger
 function fetchSearchedData () {
@@ -123,21 +114,23 @@ function fetchSearchedData () {
                 console.log("lat " + lat, "lon " + long)
                 // fetch function for weather data 
                 function weatherData () {
-                    const urlForLatLong = `https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${long}&units=imperial&exclude=alerts&appid=${apieKey}`
+                    const urlForLatLong = `https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${long}&units=imperial&cnt=5&appid=${apieKey}`
                     fetch(urlForLatLong).then(res => res.json()).then(weather => {
                         console.log(weather)
-                        infoHead.innerHTML = data[0].name + " " + today
+                        infoHead.innerHTML = data[0].name + " " + currentDay + " " + `<img src=http://openweathermap.org/img/wn/${weather.current.weather[0].icon}.png></img>`
                         temp.innerHTML = " " + weather.current.temp + "ºF"
                         wind.innerHTML = " " + weather.current.wind_speed + " MPH"
                         humidity.innerHTML = " " + weather.current.humidity + " %"
-                        
-                        cardDiv.innerHTML = weather.daily.splice(3).map( info => {
+                        console.log(JSON.parse(thisDay) + 5)
+                        cardDiv.innerHTML = weather.daily.splice(1, 5).map( info => {
+                            const timestamp = info.dt
+                            const date = new Date(timestamp * 1000)
                             return `<div class="card">
-                            <h3>${info.weather[0].main}</h3>
+                            <h3>${date.toLocaleString("en-US").slice(0, 9)}</h3>
                             <img src="http://openweathermap.org/img/wn/${info.weather[0].icon}.png"></img>
-                            <div> Temp: <span>${info.temp.day}</span></div>
-                            <div> Wind: <span>${info.wind_speed}</span></div>
-                            <div> Humidity: <span>${info.humidity}</span></div>
+                            <div> Temp: <span>${info.temp.day}ºF</span></div>
+                            <div> Wind: <span>${info.wind_speed}MPH</span></div>
+                            <div> Humidity: <span>${info.humidity}%</span></div>
                             </div>`
                         }).join('')
                     })

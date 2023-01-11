@@ -168,3 +168,68 @@ h3 {
     gap: 1rem;
     width: 100%;
 }
+@media screen and (max-width: 1400px){
+    .card-div {
+       flex-wrap: wrap;
+       gap: .6rem;
+    }
+}
+@media screen and (max-width: 1250px){
+    .card {
+        font-size: 1.2em;
+    }
+}
+@media screen and (max-width: 950px){
+    .card {
+        font-size: 1em;
+        width: 150px;
+    }
+    .card-div {
+        gap: .4rem;
+         
+     }
+     .top-info {
+        gap: .75rem;
+    }
+    .info-head {
+        margin: 0;
+        font-size: 2em;
+    }
+}
+@media screen and (max-width: 500px){
+    
+     .top-info {
+        gap: .5rem;
+        
+    }
+    .output-sec {
+        width: 75%;
+    }
+    .info-head {
+        margin: 0;
+        font-size: 1.5em;
+    }
+    .temp-info-div {
+        display: flex;
+        flex-direction: column;
+        gap: .75rem;
+        
+    }
+    .temp-info-div div {
+        font-size: 1.25em;
+    }
+    .container {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .search-sec {
+        width: 75%;
+       
+    }
+    .card-div {
+        justify-content: center;
+        align-items: center;
+         
+     }
+}
