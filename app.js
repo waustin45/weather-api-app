@@ -66,7 +66,7 @@ showSearches()
 function fetchData () {
     
     const item = inputBar.value
-    const urlForCity = `http://api.openweathermap.org/geo/1.0/direct?q=${item}&limit=1&appid=${apieKey}`
+    const urlForCity = `https://api.openweathermap.org/geo/1.0/direct?q=${item}&limit=1&appid=${apieKey}`
     fetch(urlForCity).then(res => res.json()).then(data => {
         console.log(data)
         lat = data[0].lat
@@ -83,14 +83,15 @@ function fetchData () {
                 humidity.innerHTML = " " + weather.current.humidity + " %"
                 
                cardDiv.innerHTML = weather.daily.splice(1, 5).map( info => {
-                const timestamp = info.dt
-                const date = new Date(timestamp * 1000)
-                return `<div class="card">
-                <h3>${date.toLocaleString("en-US").slice(0, 9)}</h3>
-                    <img src="http://openweathermap.org/img/wn/${info.weather[0].icon}.png"></img>
-                    <div> Temp: <span>${info.temp.day}ºF</span></div>
-                    <div> Wind: <span>${info.wind_speed}MPH</span></div>
-                    <div> Humidity: <span>${info.humidity}%</span></div>
+                //converts UTC time to local time.
+                    const timestamp = info.dt
+                    const date = new Date(timestamp * 1000)
+                    return `<div class="card">
+                        <h3>${date.toLocaleString("en-US").slice(0, 9)}</h3>
+                        <img src="https://openweathermap.org/img/wn/${info.weather[0].icon}.png"></img>
+                        <div> Temp: <span>${info.temp.day}ºF</span></div>
+                        <div> Wind: <span>${info.wind_speed}MPH</span></div>
+                        <div> Humidity: <span>${info.humidity}%</span></div>
                     </div>`
                 }).join('')
             })
@@ -100,13 +101,14 @@ function fetchData () {
 }
 // fetches weather data for searched items. press searched item to trigger
 function fetchSearchedData () {
-    console.log('works')
+   
     const searchedBtn = document.querySelectorAll('.searched-city-btn')
+     console.log(searchedBtn)
     searchedBtn.forEach(each => {
         const buttonItem = each.textContent
         console.log(buttonItem)
         each.addEventListener('click', () => {
-            const urlForCity = `http://api.openweathermap.org/geo/1.0/direct?q=${buttonItem}&limit=1&appid=${apieKey}`
+            const urlForCity = `https://api.openweathermap.org/geo/1.0/direct?q=${buttonItem}&limit=1&appid=${apieKey}`
             fetch(urlForCity).then(res => res.json()).then(data => {
                 console.log(data)
                 lat = data[0].lat
@@ -123,14 +125,15 @@ function fetchSearchedData () {
                         humidity.innerHTML = " " + weather.current.humidity + " %"
                         console.log(JSON.parse(thisDay) + 5)
                         cardDiv.innerHTML = weather.daily.splice(1, 5).map( info => {
+                            //converts UTC time to local time.
                             const timestamp = info.dt
                             const date = new Date(timestamp * 1000)
                             return `<div class="card">
-                            <h3>${date.toLocaleString("en-US").slice(0, 9)}</h3>
-                            <img src="http://openweathermap.org/img/wn/${info.weather[0].icon}.png"></img>
-                            <div> Temp: <span>${info.temp.day}ºF</span></div>
-                            <div> Wind: <span>${info.wind_speed}MPH</span></div>
-                            <div> Humidity: <span>${info.humidity}%</span></div>
+                                <h3>${date.toLocaleString("en-US").slice(0, 9)}</h3>
+                                <img src="https://openweathermap.org/img/wn/${info.weather[0].icon}.png"></img>
+                                <div> Temp: <span>${info.temp.day}ºF</span></div>
+                                <div> Wind: <span>${info.wind_speed}MPH</span></div>
+                                <div> Humidity: <span>${info.humidity}%</span></div>
                             </div>`
                         }).join('')
                     })
